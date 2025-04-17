@@ -1,0 +1,43 @@
+/*
+ * main.h
+ *
+ *  Created on: Apr 16, 2025
+ *      Author: danilo
+ */
+
+#ifndef MAIN_H_
+#define MAIN_H_
+
+#define MAX_TASKS  5                           // 4 tasks + idle
+
+//Stack memory calculations
+#define SIZE_TASK_STACK         1024U          //1 KB for task
+#define SIZE_SCHED_STACK        1024U          //1 KB for scheduler stack
+
+#define SRAM_START              0x20000000U           //Start of SRAM in Memory Map
+#define SIZE_SRAM               ((128) * (1024))      //Size of SRAM is 128 KB
+#define SRAM_END                (SRAM_START + SIZE_SRAM)
+
+#define T1_STACK_START          SRAM_END
+#define T2_STACK_START          (SRAM_END - (1 * SIZE_TASK_STACK))
+#define T3_STACK_START          (SRAM_END - (2 * SIZE_TASK_STACK))
+#define T4_STACK_START          (SRAM_END - (3 * SIZE_TASK_STACK))
+#define IDLE_STACK_START        (SRAM_END - (4 * SIZE_TASK_STACK))
+#define SCHED_STACK_START       (SRAM_END - (5 * SIZE_TASK_STACK))
+
+
+//systick calculations
+#define TICK_HZ             1000U
+#define HSI_CLOCK           16000000U
+#define SYSTICK_TIM_CLK     HSI_CLOCK
+
+typedef struct{
+	uint32_t psp_value; //to track PSP value
+	void(*task_handler)(void);
+}TCB_t;
+
+//xPSR
+#define DUMMY_XPSR  0x01000000U
+
+
+#endif /* MAIN_H_ */
